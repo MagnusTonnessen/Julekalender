@@ -1,13 +1,10 @@
-package Seventh;
+package AdventOfCode.Day7;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -16,7 +13,7 @@ import java.util.stream.Collectors;
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("src\\Seventh\\Input");
+            File file = new File("src\\AdventOfCode\\Day7\\Input");
             Scanner sc = new Scanner(file);
             Map<String, Map<String, Integer>> bags = new HashMap<>();
             while (sc.hasNextLine()) {

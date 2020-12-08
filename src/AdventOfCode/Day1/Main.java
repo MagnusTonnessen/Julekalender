@@ -1,4 +1,4 @@
-package First;
+package AdventOfCode.Day1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         ArrayList<Integer> numbers = new ArrayList<>();
         try {
-            File file = new File("src\\First\\Input");
+            File file = new File("src\\AdventOfCode\\Day1\\Input");
             Scanner sc = new Scanner(file);
             while (sc.hasNextLine()) {
                 numbers.add(sc.nextInt());

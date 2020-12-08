@@ -1,27 +1,14 @@
-package Sixth;
+package AdventOfCode.Day6;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collector;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("src\\Sixth\\Input");
+            File file = new File("src\\AdventOfCode\\Day6\\Input");
             Scanner sc = new Scanner(file);
 
             HashMap<Integer, Integer> groupCount = new HashMap<>();

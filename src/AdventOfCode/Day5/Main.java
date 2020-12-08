@@ -1,8 +1,7 @@
-package Fifth;
+package AdventOfCode.Day5;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.constant.Constable;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -11,7 +10,7 @@ import java.util.stream.IntStream;
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("src\\Fifth\\Input");
+            File file = new File("src\\AdventOfCode\\Day5\\Input");
             Scanner sc = new Scanner(file);
             List<Integer> seats = IntStream.rangeClosed(0, 127 * 8 + 7).boxed().collect(Collectors.toList());
             int highest = 0;

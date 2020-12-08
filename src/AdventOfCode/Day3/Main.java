@@ -1,18 +1,14 @@
-package Third;
+package AdventOfCode.Day3;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("src\\Third\\Input");
+            File file = new File("src\\AdventOfCode\\Day3\\Input");
             int[] right = new int[] {1, 3, 5, 7, 1};
             int[] down = new int[] {1, 1, 1, 1, 2};
             int[] treeCount = new int[5];

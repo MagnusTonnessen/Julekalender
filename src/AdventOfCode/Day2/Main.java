@@ -1,15 +1,13 @@
-package Second;
+package AdventOfCode.Day2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            File file = new File("src\\Second\\Input");
+            File file = new File("src\\AdventOfCode\\Day2\\Input");
             Scanner sc = new Scanner(file);
             int validPassPartOne = 0;
             int validPassPartTwo = 0;
