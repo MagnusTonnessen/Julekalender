@@ -1,54 +1,53 @@
 package Knowit.Day5;
 
-import java.io.File;
-import java.io.IOException;
+import java.awt.geom.Point2D;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class Main {
+
     public static void main(String[] args) {
         try {
-            char[][] grid = new char[3079][3059];
-            for (int i = 0; i < 3079; i++) {
-                for (int j = 0; j < 3059; j++) {
-                    grid[i][j] = ' ';
-                }
-            }
-            AtomicInteger x = new AtomicInteger(1529);
-            AtomicInteger y = new AtomicInteger(1539);
-            Files.readAllLines(Path.of("src\\Knowit\\Day5\\Input")).get(0).chars().mapToObj(c -> (char) c).forEach(c -> {
-                switch (c) {
-                    case 'O' -> grid[y.getAndDecrement()][x.get()] = '.';
-                    case 'N' -> grid[y.getAndIncrement()][x.get()] = '.';
-                    case 'H' -> grid[y.get()][x.getAndDecrement()] = '.';
-                    case 'V' -> grid[y.get()][x.getAndIncrement()] = '.';
-                }
-            });
 
-            for (int i = 0; i < 3079; i++) {
-                boolean insideRoom = false;
-                for (int j = 0; j < 3059; j++) {
-                    if (grid[i][j] == '.') {
-                        if (grid[i][j+1] == ' ') {
-                            insideRoom = !insideRoom;
-                        }
-                    }
-                    if (insideRoom) {
-                        grid[i][j] = '.';
-                    }
-                }
-            }
-            for (char[] cArr :grid) {
-                if (new String(cArr).contains(".")) {
-                    System.out.println(new String(cArr));
-                }
-            }
-        } catch (IOException e) {
+            AtomicInteger x = new AtomicInteger();
+            AtomicInteger y = new AtomicInteger();
+
+            System.out.println(
+                area(Files.readAllLines(Path.of("src\\Knowit\\Day5\\Input")).get(0)
+                    .chars()
+                    .mapToObj(c -> (char) c)
+                    .map(c -> switch (c) {
+                        case 'O' -> new Point2D.Double(x.get(), y.getAndIncrement());
+                        case 'N' -> new Point2D.Double(x.get(), y.getAndDecrement());
+                        case 'H' -> new Point2D.Double(x.getAndIncrement(), y.get());
+                        case 'V' -> new Point2D.Double(x.getAndDecrement(), y.get());
+                        default -> throw new IllegalStateException("Unexpected value: " + c);
+                    })
+                    .collect(Collectors.toList())
+            ));
+        } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static double area(List<Point2D.Double> vertices) {
+
+        double sum = 0;
+
+        for (int i = 0; i < vertices.size() ; i++) {
+            if (i == 0) {
+                sum += vertices.get(i).x * (vertices.get(i + 1).y - vertices.get(vertices.size() - 1).y);
+            } else if (i == vertices.size() - 1) {
+                sum += vertices.get(i).x * (vertices.get(0).y - vertices.get(i - 1).y);
+            } else {
+                sum += vertices.get(i).x * (vertices.get(i + 1).y - vertices.get(i - 1).y);
+            }
+        }
+
+        return 0.5 * Math.abs(sum);
+
     }
 }
