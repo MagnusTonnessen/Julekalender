@@ -38,31 +38,16 @@ public class Main {
         return count.get(1) * count.get(3);
     }
 
-    static long partTwo(List<Integer> numbers) {
-        Set<List<Integer>> permutations = new HashSet<>() {{ add(numbers); }};
-        long startTime = System.currentTimeMillis();
-        remove(permutations, numbers);
-        System.out.println("Execution time: " + ((System.currentTimeMillis() - startTime)/1000) + " seconds");
-        return permutations.size();
-    }
-
-    static void remove(Set<List<Integer>> permutations, List<Integer> numbers) {
-        for (int i = 1; i < numbers.size() - 1; i++) {
-            if (numbers.size() == 96) {
-                System.out.println(i + "/" + (numbers.size() - 2));
-            }
-            if (canRemove(numbers, i)) {
-                int x = numbers.remove(i);
-                if (!permutations.contains(numbers)) {
-                    permutations.add(new ArrayList<>(numbers));
+    static Long partTwo(List<Integer> numbers) {
+        Map<Integer, Long> options = numbers.stream().collect(Collectors.toMap(i -> i, i -> Integer.toUnsignedLong(0)));
+        options.put(0, 1L);
+        for (int number :numbers) {
+            for (int i = 1; i <= 3; i++) {
+                if (options.containsKey(number - i)) {
+                    options.put(number, options.get(number) + options.get(number - i));
                 }
-                remove(permutations, numbers);
-                numbers.add(i, x);
             }
         }
-    }
-
-    static boolean canRemove(List<Integer> numbers, int index) {
-        return numbers.get(index + 1) - numbers.get(index - 1) < 4;
+        return options.get(Collections.max(numbers));
     }
 }
