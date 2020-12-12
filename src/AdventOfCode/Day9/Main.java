@@ -3,8 +3,6 @@ package AdventOfCode.Day9;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Main {
 

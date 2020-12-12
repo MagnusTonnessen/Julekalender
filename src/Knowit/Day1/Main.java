@@ -2,8 +2,6 @@ package Knowit.Day1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 

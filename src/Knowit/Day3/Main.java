@@ -3,7 +3,8 @@ package Knowit.Day3;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Main {

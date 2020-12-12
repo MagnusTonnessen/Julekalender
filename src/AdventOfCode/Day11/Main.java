@@ -1,12 +1,8 @@
 package AdventOfCode.Day11;
 
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
