@@ -52,7 +52,6 @@ public class Main {
                                             .count())
                             .sum()
             );
-
         } catch (Exception ignored) {
             System.out.println("Fuck Java");
         }

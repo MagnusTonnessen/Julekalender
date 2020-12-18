@@ -10,7 +10,6 @@ public class Main {
     static char[][] seats;
 
     public static void main(String[] args) {
-
         try {
             seats =
                 Files

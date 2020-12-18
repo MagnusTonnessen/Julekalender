@@ -12,7 +12,6 @@ public class Main {
         try {
             File file = new File("src\\AdventOfCode\\Day9\\Input");
             Scanner sc = new Scanner(file);
-
             int index = 0;
             for (int i = 0; i < 25; i++) { numList.add(sc.nextInt()); }
 

@@ -17,6 +17,7 @@ public class Main {
                         .boxed()
                         .sorted()
                         .collect(Collectors.toList());
+
             numbers.add(0, 0);
             numbers.add(numbers.get(numbers.size() - 1) + 3);
 

@@ -20,6 +20,7 @@ public class Main {
                 validPassPartOne += partOne(min, max, c,password) ? 1 : 0;
                 validPassPartTwo += partTwo(min, max, c, password) ? 1 : 0;
             }
+
             System.out.println("Part one: " + validPassPartOne);
             System.out.println("Part two: " + validPassPartTwo);
         } catch (FileNotFoundException e) {

@@ -12,8 +12,10 @@ public class Main {
         try {
             File file = new File("src\\AdventOfCode\\Day5\\Input");
             Scanner sc = new Scanner(file);
+
             List<Integer> seats = IntStream.rangeClosed(0, 127 * 8 + 7).boxed().collect(Collectors.toList());
             int highest = 0;
+
             while (sc.hasNextLine()) {
                 int seat = binarySearch(sc.nextLine());
                 if (seat > highest) { highest = seat; }

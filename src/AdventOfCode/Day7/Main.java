@@ -15,7 +15,9 @@ public class Main {
         try {
             File file = new File("src\\AdventOfCode\\Day7\\Input");
             Scanner sc = new Scanner(file);
+
             Map<String, Map<String, Integer>> bags = new HashMap<>();
+
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
                 if (line.endsWith("no other bags.")) {
@@ -27,6 +29,7 @@ public class Main {
                     bags.put(bag, map);
                 }
             }
+
             System.out.println("Part one: " + partOne(bags).size());
             System.out.println("Part two: " + partTwo(bags).values().stream().reduce(0, Integer::sum));
         } catch (FileNotFoundException e) {

@@ -9,6 +9,7 @@ public class Main {
         try {
             File file = new File("src\\AdventOfCode\\Day8\\Input");
             Scanner sc = new Scanner(file);
+
             HashMap<Integer, String> operations = new HashMap<>();
 
             int index = 0;

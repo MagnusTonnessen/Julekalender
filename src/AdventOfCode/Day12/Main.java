@@ -7,7 +7,7 @@ import java.nio.file.Path;
 public class Main {
 
     static Point2D shipPosPartOne = new Point2D.Double(0, 0);
-    static int shipDirPartOne = 1; // 0 -> North, 1 -> East, 2 -> South, 3 -> West
+    static int shipDir = 1; // 0 -> North, 1 -> East, 2 -> South, 3 -> West
     static int[] NS = {1, 0, -1, 0};
     static int[] EW = {0, 1, 0, -1};
 
@@ -35,9 +35,9 @@ public class Main {
             case 'S' -> shipPosPartOne.setLocation(shipPosPartOne.getX(), shipPosPartOne.getY() - dist);
             case 'E' -> shipPosPartOne.setLocation(shipPosPartOne.getX() + dist, shipPosPartOne.getY());
             case 'W' -> shipPosPartOne.setLocation(shipPosPartOne.getX() - dist, shipPosPartOne.getY());
-            case 'L' -> shipDirPartOne = (shipDirPartOne + (360 - dist) / 90) % 4;
-            case 'R' -> shipDirPartOne = (shipDirPartOne + dist / 90) % 4;
-            case 'F' -> shipPosPartOne.setLocation(shipPosPartOne.getX() + EW[shipDirPartOne] * dist, shipPosPartOne.getY() + NS[shipDirPartOne] * dist);
+            case 'L' -> shipDir = (shipDir + (360 - dist) / 90) % 4;
+            case 'R' -> shipDir = (shipDir + dist / 90) % 4;
+            case 'F' -> shipPosPartOne.setLocation(shipPosPartOne.getX() + EW[shipDir] * dist, shipPosPartOne.getY() + NS[shipDir] * dist);
         }
     }
 
