@@ -17,11 +17,10 @@ fun main() {
     println(localMinimums.sumOf { it + 1 })
 
     val basinSize = mutableListOf<Int>()
-    var mark = 97
     for (y in input.indices) {
         for (x in input[0].indices) {
             if (input[y][x].isDigit() && input[y][x] != '9') {
-                basinSize.add(findBasinSize(input, x, y, (mark++).toChar()))
+                basinSize.add(findBasinSize(input, x, y))
             }
         }
     }
@@ -35,14 +34,14 @@ fun isLocalMinimum(input: List<List<Int>>, x: Int, y: Int): Boolean {
             (x + 1 == input.size || (x + 1 < input[0].size && input[y][x + 1] > input[y][x]))
 }
 
-fun findBasinSize(input: List<MutableList<Char>>, x: Int, y: Int, mark: Char): Int {
+fun findBasinSize(input: List<MutableList<Char>>, x: Int, y: Int): Int {
     return if (y < 0 || x < 0 || y >= input.size || x >= input[0].size || input[y][x] == '9' || !input[y][x].isDigit()) {
         0
     } else {
-        input[y][x] = mark
-        1 + findBasinSize(input, x, y - 1, mark) +
-                findBasinSize(input, x, y + 1, mark) +
-                findBasinSize(input, x - 1, y, mark) +
-                findBasinSize(input, x + 1, y, mark)
+        input[y][x] = 'x'
+        1 + findBasinSize(input, x, y - 1) +
+                findBasinSize(input, x, y + 1) +
+                findBasinSize(input, x - 1, y) +
+                findBasinSize(input, x + 1, y)
     }
 }
