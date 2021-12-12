@@ -25,10 +25,8 @@ fun main() {
                     map[8] = rule.first { it.length == 7 }.toSet()
                     map[3] = rule.first { it.length == 5 && map[1]!!.all { c -> it.contains(c) } }.toSet()
                     map[9] = rule.first { it.length == 6 && map[4]!!.all { c -> it.contains(c) } }.toSet()
-                    map[0] = rule.first {
-                        it.length == 6 && map[1]!!.all { c -> it.contains(c) } &&
-                                it.toSet() != map[9]
-                    }.toSet()
+                    map[0] = rule.first { it.length == 6 && map[1]!!.all { c -> it.contains(c) } &&
+                                it.toSet() != map[9] }.toSet()
                     map[6] = rule.first { it.length == 6 && it.toSet() != map[0] && it.toSet() != map[9] }.toSet()
                     map[5] = rule.first { it.length == 5 && it.all { c -> map[6]!!.contains(c) } }.toSet()
                     map[2] = rule.first { it.length == 5 && it.toSet() != map[5] && it.toSet() != map[3] }.toSet()
