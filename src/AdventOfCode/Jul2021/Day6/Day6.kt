@@ -18,6 +18,9 @@ fun main() {
         8 to input.count { it == 8 }.toLong()
     )
     for (day in 0 until 256) {
+        if (day == 80) {
+            println("Part one: ${map.values.sum()}")
+        }
         map = mutableMapOf(
             0 to map[1]!!,
             1 to map[2]!!,
@@ -30,5 +33,5 @@ fun main() {
             8 to map[0]!!
         )
     }
-    println(map.values.sum())
+    println("Part two: ${map.values.sum()}")
 }

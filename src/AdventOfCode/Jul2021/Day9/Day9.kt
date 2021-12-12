@@ -1,30 +1,28 @@
 package AdventOfCode.Jul2021.Day9
 
+import java.awt.Point
 import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day9/Input").readLines().map { it.toMutableList() }
     val inputInt = input.map { it.map { c -> c.toString().toInt() } }
-
-    val localMinimums = mutableListOf<Int>()
-    for (y in input.indices) {
-        for (x in input[0].indices) {
-            if (isLocalMinimum(inputInt, x, y)) {
-                localMinimums.add(inputInt[y][x])
-            }
-        }
-    }
-    println(localMinimums.sumOf { it + 1 })
-
-    val basinSize = mutableListOf<Int>()
-    for (y in input.indices) {
-        for (x in input[0].indices) {
-            if (input[y][x].isDigit() && input[y][x] != '9') {
-                basinSize.add(findBasinSize(input, x, y))
-            }
-        }
-    }
-    println(basinSize.sortedDescending().subList(0, 3).reduce { acc, elem -> acc * elem })
+    println(
+        "Part one: ${
+            inputInt.indices.flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
+                .filter { isLocalMinimum(inputInt, it.x, it.y) }.sumOf { inputInt[it.y][it.x] + 1 }
+        }"
+    )
+    println(
+        "Part two: ${
+            inputInt.indices.flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }.map {
+                if (input[it.y][it.x].isDigit() && input[it.y][it.x] != '9') findBasinSize(
+                    input,
+                    it.x,
+                    it.y
+                ) else 0
+            }.sortedDescending().subList(0, 3).reduce { acc, elem -> acc * elem }
+        }"
+    )
 }
 
 fun isLocalMinimum(input: List<List<Int>>, x: Int, y: Int): Boolean {

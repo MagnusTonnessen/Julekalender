@@ -4,48 +4,36 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day4/Input").readLines()
-    val numbers = input[0].split(",")
+    val numbers = input[0].split(",").toMutableList()
     val boards = mutableListOf<MutableList<MutableList<String>>>()
-    var index = 2
-    while (index < input.size) {
+    var index = 1
+    while (++index < input.size) {
         val board = mutableListOf<MutableList<String>>()
         repeat(5) { board.add(input[index++].split(" ").toMutableList()) }
         boards.add(board)
-        index++
     }
 
-    for (marked in numbers) {
-        val finishedBoards = mutableSetOf<MutableList<MutableList<String>>>()
-        for (board in boards) {
-            if (markBoard(board, marked)) {
-                finishedBoards.add(board)
+    val initSize = boards.size
+    while (boards.isNotEmpty()) {
+        val marked = numbers.removeAt(0)
+        boards.apply {
+            forEach {
+                if (markBoard(it, marked) && size == initSize) {
+                    println("Part one: ${finalScore(it, marked)}")
+                }
+                if (markBoard(it, marked) && size == 1) {
+                    println("Part two: ${finalScore(it, marked)}")
+                }
             }
-        }
-        boards.removeAll { finishedBoards.contains(it) }
-        if (boards.isEmpty()) {
-            println(finalScore(finishedBoards.first(), marked))
-            return
+            removeAll { markBoard(it, marked) }
         }
     }
 }
 
 fun markBoard(board: MutableList<MutableList<String>>, marked: String): Boolean {
-    val colCount = mutableListOf(0, 0, 0, 0, 0)
-    for (row in 0..4) {
-        var count = 0
-        for (col in 0..4) {
-            if (board[row][col] == marked || board[row][col] == "X") {
-                board[row][col] = "X"
-                count++
-                colCount[col]++
-            }
-        }
-        if (count == 5 || colCount.contains(5)) {
-            return true
-        }
-    }
-
-    return false
+    board.find { it.contains(marked) }?.apply { set(indexOf(marked), "X") }
+    return board.any { it.count { c -> c == "X" } == 5 } ||
+            board[0].indices.map { board.map { row -> row[it] } }.any { it.count { c -> c == "X" } == 5 }
 }
 
 fun finalScore(board: List<List<String>>, lastMarked: String): Int {
