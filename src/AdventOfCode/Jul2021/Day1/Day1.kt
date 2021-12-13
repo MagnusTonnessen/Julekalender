@@ -11,11 +11,10 @@ fun main() {
     println("Part two: " + (3 until input.size)
         .fold(0)
         { acc, i ->
-            acc +
-                    if (input[i] + input[i - 1] + input[i - 2] > input[i - 1] + input[i - 2] + input[i - 3])
-                        1
-                    else
-                        0
+            if (input[i] + input[i - 1] + input[i - 2] > input[i - 1] + input[i - 2] + input[i - 3])
+                acc + 1
+            else
+                acc
         }
     )
 }
