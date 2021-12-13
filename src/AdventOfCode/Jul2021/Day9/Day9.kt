@@ -6,23 +6,23 @@ import java.io.File
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day9/Input").readLines().map { it.toMutableList() }
     val inputInt = input.map { it.map { c -> c.toString().toInt() } }
-    println("Part one: " +
-            inputInt.indices
-                .flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
-                .filter { isLocalMinimum(inputInt, it.x, it.y) }
-                .sumOf { inputInt[it.y][it.x] + 1 }
+    println("Part one: " + inputInt
+        .indices
+        .flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
+        .filter { isLocalMinimum(inputInt, it.x, it.y) }
+        .sumOf { inputInt[it.y][it.x] + 1 }
     )
 
-    println("Part two: " +
-            inputInt.indices
-                .flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
-                .map {
-                    if (input[it.y][it.x].isDigit() && input[it.y][it.x] != '9') findBasinSize(input, it.x, it.y)
-                    else 0
-                }
-                .sortedDescending()
-                .subList(0, 3)
-                .reduce { acc, elem -> acc * elem }
+    println("Part two: " + inputInt
+        .indices
+        .flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
+        .map {
+            if (input[it.y][it.x].isDigit() && input[it.y][it.x] != '9') findBasinSize(input, it.x, it.y)
+            else 0
+        }
+        .sortedDescending()
+        .subList(0, 3)
+        .reduce { acc, elem -> acc * elem }
 
     )
 }

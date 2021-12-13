@@ -4,6 +4,7 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day8/Input").readLines()
+
     println("Part one: " + input
         .map { it.split(" | ")[1].split(" ") }
         .sumOf { it.count { c -> c.length == 2 || c.length == 3 || c.length == 4 || c.length == 7 } }

@@ -17,6 +17,7 @@ fun main() {
         7 to input.count { it == 7 }.toLong(),
         8 to input.count { it == 8 }.toLong()
     )
+
     for (day in 0 until 256) {
         if (day == 80) {
             println("Part one: ${map.values.sum()}")
