@@ -6,20 +6,23 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day13/Input").readLines()
-    var points =
-        input.takeWhile { it.contains(",") }.map { Point(it.split(",")[0].toInt(), it.split(",")[1].toInt()) }.toSet()
-    val folds = input.takeLastWhile { it.contains("fold") }.map { it.removePrefix("fold along ").split("=") }
+    var points = input
+        .takeWhile { it.contains(",") }
+        .map { Point(it.split(",")[0].toInt(), it.split(",")[1].toInt()) }
+        .toSet()
+
+    val folds = input
+        .takeLastWhile { it.contains("fold") }
+        .map { it.removePrefix("fold along ").split("=") }
         .map { Pair(it[0], it[1].toInt()) }
 
     println("Part one: ${fold(points, folds[0]).size}")
 
-    for (fold in folds) {
-        points = fold(points, fold)
-    }
+    folds.forEach { points = fold(points, it) }
+
     val arr = Array(points.maxOf { it.y } + 1) { Array(points.maxOf { it.x } + 1) { " " } }
-    for (point in points) {
-        arr[point.y][point.x] = "@"
-    }
+
+    points.forEach { arr[it.y][it.x] = "@" }
 
     println("Part two: ")
     println(arr.joinToString("\n") { it.joinToString("") })
