@@ -23,16 +23,18 @@ fun main() {
                     map[4] = rule.first { it.length == 4 }.toSet()
                     map[7] = rule.first { it.length == 3 }.toSet()
                     map[8] = rule.first { it.length == 7 }.toSet()
-                    map[3] = rule.first { it.length == 5 && map[1]!!.all { c -> it.contains(c) } }.toSet()
-                    map[9] = rule.first { it.length == 6 && map[4]!!.all { c -> it.contains(c) } }.toSet()
-                    map[0] = rule.first { it.length == 6 && map[1]!!.all { c -> it.contains(c) } &&
-                                it.toSet() != map[9] }.toSet()
+                    map[3] = rule.first { it.length == 5 && map[1]!!.all { c -> c in it } }.toSet()
+                    map[9] = rule.first { it.length == 6 && map[4]!!.all { c -> c in it } }.toSet()
+                    map[0] =
+                        rule.first { it.length == 6 && map[1]!!.all { c -> c in it } && it.toSet() != map[9] }.toSet()
                     map[6] = rule.first { it.length == 6 && it.toSet() != map[0] && it.toSet() != map[9] }.toSet()
                     map[5] = rule.first { it.length == 5 && it.all { c -> map[6]!!.contains(c) } }.toSet()
                     map[2] = rule.first { it.length == 5 && it.toSet() != map[5] && it.toSet() != map[3] }.toSet()
 
-                    return@sumOf code.map { map.filterValues { value -> it.toSet() == value.toSet() }.keys.first() }
-                        .joinToString("").toInt()
-        }
+                    return@sumOf code
+                        .map { map.filterValues { value -> it.toSet() == value.toSet() }.keys.first() }
+                        .joinToString("")
+                        .toInt()
+                }
     )
 }

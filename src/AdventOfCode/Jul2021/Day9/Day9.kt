@@ -18,7 +18,8 @@ fun main() {
                 .flatMap { y -> inputInt[0].indices.map { x -> Point(x, y) } }
                 .map {
                     if (input[it.y][it.x].isDigit() && input[it.y][it.x] != '9') findBasinSize(input, it.x, it.y)
-                    else 0 }
+                    else 0
+                }
                 .sortedDescending()
                 .subList(0, 3)
                 .reduce { acc, elem -> acc * elem }

@@ -14,10 +14,8 @@ fun main() {
         edges[b]!! += a
     }
     val visited = edges.keys.associateWith { 0 }.toMutableMap()
-    val waysPart1 = dfs("start", edges, visited, partTwo = false)
-    val waysPart2 = dfs("start", edges, visited, partTwo = true)
-    println("Part 1: $waysPart1")
-    println("Part 2: $waysPart2")
+    println("Part 1: ${dfs("start", edges, visited, partTwo = false)}")
+    println("Part 2: ${dfs("start", edges, visited, partTwo = true)}")
 }
 
 fun dfs(
