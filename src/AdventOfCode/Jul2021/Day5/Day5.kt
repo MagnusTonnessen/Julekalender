@@ -10,8 +10,8 @@ fun main() {
                 .map(String::toInt)
         }
 
-    val arrPartOne = Array(input.maxOf { maxOf(it[1], it[3]) } + 1)
-    { Array(input.maxOf { maxOf(it[0], it[2]) + 1 }) { 0 } }
+    val arrPartOne =
+        Array(input.maxOf { maxOf(it[1], it[3]) } + 1) { Array(input.maxOf { maxOf(it[0], it[2]) + 1 }) { 0 } }
     val arrPartTwo =
         Array(input.maxOf { maxOf(it[1], it[3]) } + 1) { Array(input.maxOf { maxOf(it[0], it[2]) + 1 }) { 0 } }
     for (line in input) {
