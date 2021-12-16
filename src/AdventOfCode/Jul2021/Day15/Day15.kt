@@ -6,7 +6,7 @@ import java.io.File
 fun main() {
     val inputPartOne = File("src/AdventOfCode/Jul2021/Day15/Input").readLines().map { it.map { c -> c.digitToInt() } }
     val distPartOne = dijkstra(inputPartOne, Point(0, 0))
-    println("Part one: ${distPartOne[index(Point(inputPartOne[0].lastIndex, inputPartOne.lastIndex), inputPartOne)]}")
+    println("Part one: ${distPartOne.last()}")
 
     val inputPartTwo = mutableListOf<List<Int>>()
     for (y in 0..4) {
@@ -19,7 +19,7 @@ fun main() {
         }
     }
     val distPartTwo = dijkstra(inputPartTwo, Point(0, 0))
-    println("Part two: ${distPartTwo[index(Point(inputPartTwo[0].lastIndex, inputPartTwo.lastIndex), inputPartTwo)]}")
+    println("Part two: ${distPartTwo.last()}")
 }
 
 fun dijkstra(input: List<List<Int>>, src: Point): LongArray {
