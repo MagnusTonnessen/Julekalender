@@ -93,12 +93,8 @@ fun explode(number: String, index: Int): String {
     val explode = number.drop(index + 1).takeWhile { it != ']' }
     val leftValue = explode.split(",")[0].toInt()
     val rightValue = explode.split(",")[1].toInt()
-    return "${
-        increaseLeftSide(
-            number.substring(0, index),
-            leftValue
-        )
-    }0${increaseRightSide(number.substring(index + explode.length + 2), rightValue)}"
+    return increaseLeftSide(number.substring(0, index), leftValue) + 0 +
+            increaseRightSide(number.substring(index + explode.length + 2), rightValue)
 }
 
 fun increaseLeftSide(string: String, value: Int): String {
