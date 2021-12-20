@@ -12,11 +12,11 @@ fun main() {
 }
 
 class Packet(packet: String) {
-    private var subPackets: List<Packet> = listOf()
-    private var value: Long
-    private var version: Int
-    private var typeID: Int
-    private var packetLength: Int
+    private val subPackets: List<Packet>
+    private val value: Long
+    private val version: Int
+    private val typeID: Int
+    private val packetLength: Int
 
     init {
         version = packet.substring(0, 3).toInt(2)
@@ -32,6 +32,7 @@ class Packet(packet: String) {
             }
             packetLength = index
             value = num.toLong(2)
+            subPackets = listOf()
         } else {
             if (packet[6] == '0') {
                 subPackets = parsePacketLength(packet.substring(22), packet.substring(7, 22).toInt(2))
@@ -85,17 +86,39 @@ class Packet(packet: String) {
     }
 
     fun print() {
-        print("")
+        print(" ", true)
     }
 
-    private fun print(pad: String) {
-        println("${pad.dropLast(1)}|")
-        if (subPackets.isEmpty()) {
-            println("${pad.dropLast(1)}|---Version: $version, type id: $typeID, value: $value")
-        } else {
-            println("${pad.dropLast(1)}|---Version: $version, type id: $typeID")
-            subPackets.dropLast(1).forEach { it.print("$pad   |") }
-            subPackets.last().print("$pad    ")
+    private fun print(pad: String, last: Boolean) {
+        val versionText = "Version: $version"
+        val typeIDText = "Type id: $typeID"
+        val valueText = "Value: $value"
+        println("${pad.dropLast(1)}┃")
+        println("${pad.dropLast(1)}┃  $versionText")
+        println(
+            "${pad.dropLast(1)}${if (last) "┗" else "┣"}━ $typeIDText${
+                if (subPackets.isNotEmpty()) " ".repeat(
+                    maxOf(
+                        0,
+                        valueText.length - typeIDText.length
+                    ) + 1
+                ) + "━┓" else ""
+            }"
+        )
+        println(
+            "${pad.dropLast(1)}${if (last) " " else "┃"}  $valueText${
+                if (subPackets.isNotEmpty()) " ".repeat(
+                    maxOf(
+                        0,
+                        typeIDText.length - valueText.length
+                    ) + 2
+                ) + "┃" else ""
+            }"
+        )
+        if (subPackets.isNotEmpty()) {
+            subPackets.dropLast(1)
+                .forEach { it.print("$pad${" ".repeat(maxOf(typeIDText.length, valueText.length) + 4)}┃", false) }
+            subPackets.last().print("$pad${" ".repeat(maxOf(typeIDText.length, valueText.length) + 5)}", true)
         }
     }
 }
