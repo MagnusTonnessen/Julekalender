@@ -4,16 +4,7 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2021/Day16/Input").readLines()[0]
-    val packet = Packet(
-        input
-            .map {
-                it
-                    .digitToInt(16)
-                    .toString(2)
-                    .padStart(4, '0')
-            }
-            .joinToString("")
-    )
+    val packet = Packet(input.map { it.digitToInt(16).toString(2).padStart(4, '0') }.joinToString(""))
     packet.print()
     println()
     println("Part one: ${packet.versionSum()}")
