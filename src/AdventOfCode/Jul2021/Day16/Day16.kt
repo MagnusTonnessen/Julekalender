@@ -90,35 +90,34 @@ class Packet(packet: String) {
     }
 
     private fun print(pad: String, last: Boolean) {
-        val versionText = "Version: $version"
-        val typeIDText = "Type id: $typeID"
-        val valueText = "Value: $value"
+        val ve = "Version: $version"
+        val ty = "Type id: $typeID"
+        val va = "Value: $value"
         println("${pad.dropLast(1)}┃")
-        println("${pad.dropLast(1)}┃  $versionText")
+        println("${pad.dropLast(1)}┃  $ve")
         println(
-            "${pad.dropLast(1)}${if (last) "┗" else "┣"}━ $typeIDText${
+            "${pad.dropLast(1)}${if (last) "┗" else "┣"}━ $ty${
                 if (subPackets.isNotEmpty()) " ".repeat(
                     maxOf(
                         0,
-                        valueText.length - typeIDText.length
+                        va.length - ty.length
                     ) + 1
                 ) + "━┓" else ""
             }"
         )
         println(
-            "${pad.dropLast(1)}${if (last) " " else "┃"}  $valueText${
+            "${pad.dropLast(1)}${if (last) " " else "┃"}  $va${
                 if (subPackets.isNotEmpty()) " ".repeat(
                     maxOf(
                         0,
-                        typeIDText.length - valueText.length
+                        ty.length - va.length
                     ) + 2
                 ) + "┃" else ""
             }"
         )
         if (subPackets.isNotEmpty()) {
-            subPackets.dropLast(1)
-                .forEach { it.print("$pad${" ".repeat(maxOf(typeIDText.length, valueText.length) + 4)}┃", false) }
-            subPackets.last().print("$pad${" ".repeat(maxOf(typeIDText.length, valueText.length) + 5)}", true)
+            subPackets.dropLast(1).forEach { it.print("$pad${" ".repeat(maxOf(ty.length, va.length) + 4)}┃", false) }
+            subPackets.last().print("$pad${" ".repeat(maxOf(ty.length, va.length) + 5)}", true)
         }
     }
 }
