@@ -4,28 +4,30 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2022/Day3/Input").readLines()
-    var part1 = 0
-    var part2 = 0
-    var lines = mutableListOf<String>()
-    input.forEach { line ->
-        lines.add(line)
-        if (lines.size == 3) {
-            loop@
-            for (char in lines[0]) {
-                if (lines[1].contains(char) && lines[2].contains(char)) {
-                    part2 += if (char.isLowerCase()) { char.code - 96 } else { char.code - 64 + 26}
-                    break@loop
-                }
-            }
-            lines.clear()
-        }
+    input.sumOf { line ->
         val checked = HashSet<Char>()
-        val first = line.subSequence(0, line.length / 2).toString()
-        val second = line.subSequence(line.length / 2, line.length).toString()
-        first.forEach { char ->
-            if (checked.add(char) && second.contains(char)) {
-                part1 += if (char.isLowerCase()) { char.code - 96 } else { char.code - 64 + 26}
+        val first = line.slice(0 until line.length / 2)
+        val second = line.slice(line.length / 2 until line.length)
+        first.sumOf { char ->
+            if (!checked.add(char) || !second.contains(char)) {
+                0
+            } else if (char.isLowerCase()) {
+                char.code - 96
+            } else {
+                char.code - 64 + 26
             }
         }
-    }.also { println("Part one: $part1"); println("Part two: $part2") }
+    }.also { println("Part one: $it") }
+
+    input.indices.step(3).sumOf {
+        input[it].find { char ->
+            input[it + 1].contains(char) && input[it + 2].contains(char)
+        }?.let { char ->
+            if (char.isLowerCase()) {
+                char.code - 96
+            } else {
+                char.code - 64 + 26
+            }
+        } ?: 0
+    }.also { println("Part two: $it") }
 }
