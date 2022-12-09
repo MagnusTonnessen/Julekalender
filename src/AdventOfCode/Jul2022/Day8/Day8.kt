@@ -4,19 +4,8 @@ import java.io.File
 
 fun main() {
     val input = File("src/AdventOfCode/Jul2022/Day8/Input").readLines().map { line -> line.toCharArray().map { it.digitToInt() } }
-    (input.indices).flatMap { row ->
-        (input.indices).map { col ->
-            visible(row, col, input)
-        }}
-    .count { it }
-    .also { println("Part one: $it") }
-
-    (input.indices).flatMap { row ->
-        (input.indices).map { col ->
-            scenicScore(row, col, input)
-        }}
-    .max()
-    .also { println("Part two: $it") }
+    (input.indices).flatMap { row -> (input.indices).map { col -> visible(row, col, input) }}.count { it }.also { println("Part one: $it") }
+    (input.indices).flatMap { row -> (input.indices).map { col -> scenicScore(row, col, input) }}.max().also { println("Part two: $it") }
 }
 
 fun visible(row: Int, col: Int, grid: List<List<Int>>): Boolean {
