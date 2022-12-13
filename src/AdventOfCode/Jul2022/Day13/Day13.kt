@@ -1,28 +1,27 @@
 package AdventOfCode.Jul2022.Day13
 
 import java.io.File
-import java.util.StringJoiner
-import kotlin.math.max
 
 fun main() {
-    val input = File("src/AdventOfCode/Jul2022/Day13/Input")
-        .readLines().filter { it.isNotBlank() }.toMutableList()
+    File("src/AdventOfCode/Jul2022/Day13/Input")
+        .readLines()
+        .windowed(2, 3)
+        .also { it ->
+            it.withIndex()
+                .filter { compare(it.value[0], it.value[1]) }
+                .sumOf { it.index + 1 }
+                .also { println("Part one: $it") }
+            it.flatten()
+                .toMutableList()
+                .apply { addAll(listOf("[[2]]", "[[6]]")) }
+                .sortedWith { string1, string2 -> if (compare(string1, string2)) 1 else -1 }
+                .reversed()
+                .withIndex()
+                .filter { it.value == "[[2]]" || it.value == "[[6]]" }
+                .fold(1) { acc, pair -> acc * (pair.index + 1) }
+                .also { println("Part two: $it") }
 
-    input
-        .chunked(2)
-        .withIndex()
-        .filter { compare(it.value[0], it.value[1]) }
-        .sumOf { it.index + 1 }
-        .also { println("Part one: $it") }
-
-    input += listOf("[[2]]", "[[6]]")
-    input
-        .sortedWith { string1, string2 -> if (compare(string1, string2)) 1 else -1 }
-        .reversed()
-        .withIndex()
-        .filter { it.value == "[[2]]" || it.value == "[[6]]" }
-        .fold(1) { acc, pair -> acc * (pair.index + 1) }
-        .also { println("Part two: $it") }
+        }
 }
 
 fun compare(string1: String, string2: String): Boolean {
