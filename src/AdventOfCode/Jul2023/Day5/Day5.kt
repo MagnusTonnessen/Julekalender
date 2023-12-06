@@ -3,29 +3,30 @@ package AdventOfCode.Jul2023.Day5
 import java.io.File
 
 fun main() {
-    val gridPart1 = Array(9) { mutableListOf<Char>() }
-    val gridPart2 = Array(9) { mutableListOf<Char>() }
-    val input = File("src/AdventOfCode/Jul2022/Day5/Input").readLines()
-    input.take(8).forEach {
-        for (index in it.indices step 4) {
-            val char = it.elementAt(index + 1)
-            if (char.isLetter()) {
-                gridPart1[index / 4].add(0, char)
-                gridPart2[index / 4].add(0, char)
-            }
+    File("src/AdventOfCode/Jul2023/Day5/Input")
+        .readText()
+        .split("\n\n")
+        .map { it.lines().filter { it.none { it.isLetter() } }.map { it.split(" ").map { it.toLong() } } }
+        .run {
+            first()
+                .first()
+                .minOf {
+                    drop(1).fold(it) { acc, map ->
+                        map.firstOrNull { acc in it[1]..it[1] + it[2] }?.let { it[0] + (acc - it[1]) } ?: acc
+                    }
+                }
+                .let { println("Part one: $it") }
+
+            first()
+                .first()
+                .windowed(2, 2)
+                .minOf {
+                    (it[0] until it[0] + it[1]).minOf {
+                        drop(1).fold(it) { acc, map ->
+                            map.firstOrNull { acc in it[1]..it[1] + it[2] }?.let { it[0] + (acc - it[1]) } ?: acc
+                        }
+                    }
+                }
+                .let { println("Part two: $it") }
         }
-    }
-
-    input.drop(10).forEach {
-        it.split(" ")
-          .filter { str -> str.first().isDigit() }
-          .map { num -> num.toInt() }
-          .also { op ->
-              (0 until op[0]).map { gridPart1[op[1] - 1].removeLast() }.forEach { num -> gridPart1[op[2] - 1].add(num) }
-              (0 until op[0]).map { gridPart2[op[1] - 1].removeLast() }.reversed().forEach { num -> gridPart2[op[2] - 1].add(num) }
-          }
-    }
-
-    (0 until 9).map { gridPart1[it].last() }.also { println("Part one: ${it.joinToString("")}") }
-    (0 until 9).map { gridPart2[it].last() }.also { println("Part two: ${it.joinToString("")}") }
 }
