@@ -28,7 +28,7 @@ fun main() {
     println(arr.joinToString("\n") { it.joinToString("") })
 }
 
-fun fold(points: Set<Point>, fold: Pair<String, Int>): Set<Point> {
+private fun fold(points: Set<Point>, fold: Pair<String, Int>): Set<Point> {
     return points
         .map {
             if (fold.first == "x" && it.x > fold.second) {
