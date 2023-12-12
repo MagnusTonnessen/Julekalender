@@ -1,6 +1,7 @@
 package AdventOfCode.Jul2023
 
 import java.io.File
+import kotlin.math.max
 
 fun main() {
     File("src/Input")
@@ -17,28 +18,42 @@ fun main() {
                 )
             }
             var node = "AAA"
-            var index = 0L
-            while (node != "ZZZ") {
-                node = when (op[(index % op.length).toInt()]) {
-                    'L' -> map[node]!!.first
-                    'R' -> map[node]!!.second
+            var index = 0
+            do {
+                node = when (op[index++ % op.length]) {
+                    'L'  -> map[node]!!.first
+                    'R'  -> map[node]!!.second
                     else -> throw Exception()
                 }
-                index++
-            }
+            } while (node != "ZZZ")
             println("Part one: $index")
-            var nodes = map.keys.filter { it.last() == 'A' }
-            index = 0
-            while (nodes.any { it.last() != 'Z' }) {
-                nodes = nodes.map {
-                    when (op[(index % op.length).toInt()]) {
-                        'L' -> map[it]!!.first
-                        'R' -> map[it]!!.second
-                        else -> throw Exception()
-                    }
+
+            map.keys
+                .filter { it.endsWith('A') }
+                .map {
+                    index = 0
+                    node = it
+                    do {
+                        node = when (op[index++ % op.length]) {
+                            'L'  -> map[node]!!.first
+                            'R'  -> map[node]!!.second
+                            else -> throw Exception()
+                        }
+                    } while (!node.endsWith('Z'))
+                    index.toLong()
                 }
-                index++
-            }
-            println("Part two: $index")
+                .reduce { acc, l -> lcm(acc, l) }
+                .let { println("Part two: $it") }
         }
+}
+
+private fun lcm(a: Long, b: Long): Long {
+    var lcm = max(a, b)
+    while (lcm <= a * b) {
+        if (lcm.mod(a) == 0L && lcm.mod(b) == 0L) {
+            return lcm
+        }
+        lcm += max(a, b)
+    }
+    return a * b
 }

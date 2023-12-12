@@ -1,24 +1,29 @@
 package AdventOfCode.Jul2023
 
 import java.io.File
-import kotlin.math.abs
 
 fun main() {
     File("src/Input")
         .readLines()
-        .map { it.split(" ").map { it.toInt() } }
-//        .onEach { println(it) }
+        .map { it.split(" ").map { it.toLong() } }
         .run {
-            sumOf {
+            fold(Pair(0L, 0L)) { acc, it ->
                 var list = it
-                var extrapolatedValue = it.last()
-                    println("List: $list")
-                while (list.size > 1 && list.max() > 0 ) {
-                    list = List(list.lastIndex) { abs(list[it] - list[it + 1]) }
-                    extrapolatedValue += list.last()
-                    println("List: $list")
+                var next = 0L
+                var prev = 0L
+                while (list.any { it != 0L }) {
+                    list = list
+                        .zipWithNext { a, b -> b - a }
+                        .reversed()
+                        .apply {
+                            next += last()
+                            prev = first() - prev
+                        }
                 }
-                extrapolatedValue
-            }.let { println("Part one: $it") }
+                Pair(acc.first + next, acc.second + prev)
+            }.let {
+                println("Part one: ${it.first}")
+                println("Part two: ${it.second}")
+            }
         }
 }
