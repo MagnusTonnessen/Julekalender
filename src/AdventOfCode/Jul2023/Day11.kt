@@ -8,7 +8,7 @@ fun main() {
         .readLines()
         .map { it.toCharArray() }
         .run {
-            val expandingRows = indices.filter { i -> get(i).all { it == '.' }}
+            val expandingRows = indices.filter { i -> get(i).all { it == '.' } }
             val expandingCols = get(0).indices.filter { i -> all { it[i] == '.' } }
             val expandedUniverse = flatMapIndexed { iRow, row ->
                 val newRow = row.flatMapIndexed { iCol, col -> if (iCol in expandingCols) { listOf(col, col) } else { listOf(col) } }
