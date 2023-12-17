@@ -14,21 +14,10 @@ fun main() {
                 val newRow = row.flatMapIndexed { iCol, col -> if (iCol in expandingCols) { listOf(col, col) } else { listOf(col) } }
                 if (iRow in expandingRows) { listOf(newRow, newRow) } else { listOf(newRow) }
             }
-            val galaxies = expandedUniverse.flatMapIndexed { iRow, row ->
-                row.mapIndexedNotNull { iCol, col ->
-                    if (col == '#') iRow to iCol else null
-                }
-            }
-            galaxies.perms().sumOf { p -> shortestPath(p.first, p.second) }.let { println("Part one: $it") }
+            expandedUniverse
+                .flatMapIndexed { iRow, row -> row.mapIndexedNotNull { iCol, col -> if (col == '#') iRow to iCol else null } }
+                .let { it.flatMapIndexed { i, x -> it.subList(i + 1, it.size).map { y -> Pair(x, y) } } }
+                .sumOf { (a, b) -> abs(a.first - b.first) + abs(a.second - b.second) }
+                .let { println("Part one: $it") }
         }
-}
-
-private fun shortestPath(a: Pair<Int, Int>, b: Pair<Int, Int>): Int {
-    return abs(a.first - b.first) + abs(a.second - b.second)
-}
-
-private fun List<Pair<Int, Int>>.perms(): List<Pair<Pair<Int, Int>, Pair<Int, Int>>> {
-    return flatMapIndexed { i, x ->
-        subList(i + 1, size).map { y -> Pair(x, y) }
-    }
 }
