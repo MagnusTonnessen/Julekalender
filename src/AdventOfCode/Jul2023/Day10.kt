@@ -3,10 +3,7 @@ package AdventOfCode.Jul2023
 import java.io.File
 
 fun main() {
-    File("src/Input")
-        .readLines()
-        .map { it.toCharArray() }
-        .run {
+    File("src/Input").readLines().map { it.toCharArray() }.run {
             val start = Pair(indexOfFirst { it.contains('S') }, find { it.contains('S') }!!.indexOf('S'))
             val pipePositions = mutableSetOf<Pair<Int, Int>>()
             for (dir in listOf('N', 'E', 'S', 'W')) {
