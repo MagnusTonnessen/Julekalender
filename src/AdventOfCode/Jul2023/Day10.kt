@@ -8,24 +8,59 @@ fun main() {
         .map { it.toCharArray() }
         .run {
             val start = Pair(indexOfFirst { it.contains('S') }, find { it.contains('S') }!!.indexOf('S'))
+            val pipePositions = mutableSetOf<Pair<Int, Int>>()
             for (dir in listOf('N', 'E', 'S', 'W')) {
-                var length = 0
+                pipePositions.clear()
                 var currPos = start
                 var currDir = dir
                 var currChar = getOrNull(currPos.first)?.getOrNull(currPos.second)
-                println("=".repeat(20))
                 do {
+                    pipePositions.add(currPos)
                     val (dy, dx, newDir) = posDirMap[currChar]?.get(currDir) ?: break
                     currPos = currPos.run { Pair(first + dy, second + dx) }
                     currDir = newDir
                     currChar = getOrNull(currPos.first)?.getOrNull(currPos.second)
-                    length++
                 } while (currChar != null && currChar != 'S')
                 if (currChar == 'S') {
-                    println("Part one: ${length.div(2)}")
+                    println("Part one: ${pipePositions.size.div(2)}")
                     break
                 }
             }
+
+            var inside = false
+            var count = 0
+            var previousCorner: Char? = null
+            flatMapIndexed { y, row ->
+                row.mapIndexed { x, char ->
+                    if (pipePositions.contains(Pair(y, x))) {
+                        when (char) {
+                            'S'  -> 'J' // www.hackySolutions.mt
+                            else -> char
+                        }
+                    } else {
+                        '.'
+                    }
+                }
+            }.forEach {
+                when (it) {
+                    '.' -> if (inside) {
+                        count++
+                    }
+
+                    '|' -> inside = !inside
+                    'F' -> previousCorner = 'F'
+                    'L' -> previousCorner = 'L'
+
+                    '7' -> if (previousCorner == 'L') {
+                        inside = !inside
+                    }
+
+                    'J' -> if (previousCorner == 'F') {
+                        inside = !inside
+                    }
+                }
+            }
+            println("Part two: $count")
         }
 }
 
