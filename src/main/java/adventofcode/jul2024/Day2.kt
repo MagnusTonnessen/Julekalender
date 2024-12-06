@@ -5,12 +5,6 @@ import adventofcode.printPart2
 import java.io.File
 
 fun main() {
-    fun List<Long>.isSafe(): Boolean =
-        windowed(2)
-            .run {
-                all { it[0] in it[1] + 1..it[1] + 3 } || all { it[0] in it[1] - 3 until it[1] }
-            }
-
     File("src/Input.txt")
         .readLines()
         .map { it.split(" ").map { it.toLong() } }
@@ -26,3 +20,9 @@ fun main() {
             }.printPart2()
         }
 }
+
+private fun List<Long>.isSafe(): Boolean =
+    windowed(2)
+        .run {
+            all { it[0] in it[1] + 1..it[1] + 3 } || all { it[0] in it[1] - 3 until it[1] }
+        }

@@ -1,17 +1,17 @@
 package adventofcode.jul2024
 
-import adventofcode.EightDirection
+import adventofcode.Direction
 import adventofcode.printPart1
 import adventofcode.printPart2
 import java.io.File
 
 fun main() {
-    val input = File("src/Input.txt").readLines().map { it.toCharArray() }
+    val input = File("src/Input.txt").readLines().map { it.toList() }
 
     input.indices.run {
         sumOf { row ->
             input[row].indices.sumOf { col ->
-                EightDirection.entries.count { dir ->
+                Direction.eightDirections.count { dir ->
                     try {
                         input[row][col] == 'X' &&
                             input[row + 1 * dir.y][col + 1 * dir.x] == 'M' &&

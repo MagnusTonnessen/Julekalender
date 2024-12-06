@@ -32,7 +32,7 @@ hs_err_pid*
 
 /.idea/
 /out/
-Input
+Input.txt
 # Ignore Gradle project-specific cache directory
 .gradle
 
