@@ -36,18 +36,18 @@ fun main() {
 }
 
 private fun Grid.runSimulation(): Pair<Set<Pair<Position, Direction>>, Boolean> {
-    val pos = getPositionOfChar('^')
+    val pos = getFirstPositionOfChar('^')
     var dir = N
     val visited = mutableSetOf(pos to dir)
     while (isOnGrid(pos)) {
-        val nPos = pos.afterMove(dir)
+        val nPos = pos.move(dir)
         when {
             visited.contains(pos to dir) -> return visited to true
             !isOnGrid(nPos) -> break
             getChar(pos) == '#' -> dir = dir.turnRight90()
             else -> {
-                pos.move(dir)
-                visited.add(pos to dir)
+                val newPos = pos.move(dir)
+                visited.add(newPos to dir)
             }
         }
     }
