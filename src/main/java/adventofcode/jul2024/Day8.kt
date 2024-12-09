@@ -4,7 +4,6 @@ import adventofcode.Grid
 import adventofcode.Grid.Companion.toGrid
 import adventofcode.Position
 import adventofcode.combinations
-import adventofcode.isOnGrid
 import adventofcode.printPart1
 import adventofcode.printPart2
 import java.io.File
