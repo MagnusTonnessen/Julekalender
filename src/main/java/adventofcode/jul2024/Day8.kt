@@ -13,7 +13,7 @@ fun main() {
         .readLines()
         .toGrid()
         .run {
-            positions()
+            positions
                 .filter { get(it) != '.' }
                 .groupBy { get(it) }
                 .run {

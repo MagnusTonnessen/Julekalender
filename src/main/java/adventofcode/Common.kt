@@ -8,7 +8,8 @@ class Grid(
     val yIndices: IntRange = grid.indices
     val xIndices: IntRange = grid[0].indices
 
-    fun positions(): Sequence<Position> = yIndices.flatMap { y -> xIndices.map { x -> Position(y, x) } }.asSequence()
+    val positions: List<Position>
+        get() = yIndices.flatMap { y -> xIndices.map { x -> Position(y, x) } }
 
     fun sumRows(selector: (Int) -> Int) = yIndices.sumOf(selector)
 
@@ -20,6 +21,8 @@ class Grid(
     ): Char = grid[y][x]
 
     fun get(position: Position): Char = grid[position.y][position.x]
+
+    fun getInt(position: Position): Int = grid[position.y][position.x].digitToInt()
 
     fun isOnGrid(position: Position): Boolean = position.y in yIndices && position.x in xIndices
 
@@ -46,6 +49,8 @@ class Grid(
         newGrid[y][x] = newSymbol
         return Grid(newGrid)
     }
+
+    override fun toString(): String = grid.joinToString("\n") { it.joinToString("") }
 
     fun print(overrideChars: List<Pair<Position, Char>> = emptyList()) {
         yIndices.forEach { y ->
