@@ -21,7 +21,6 @@ fun main() {
             .flatMap { pos ->
                 Direction.fourDirections.mapNotNull { dir ->
                     val newPos = pos.move(dir)
-                    val modPos = newPos.mod(grid)
                     if (grid.get(newPos) != '#' && !previousLayer.contains(newPos)) {
                         newPos
                     } else {

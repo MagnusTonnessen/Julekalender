@@ -11,6 +11,20 @@ class Grid(
     val positions: List<Position>
         get() = yIndices.flatMap { y -> xIndices.map { x -> Position(y, x) } }
 
+    val positionsWithChar: List<Pair<Position, Char>>
+        get() = yIndices.flatMap { y -> xIndices.map { x -> Position(y, x) to grid[y][x] } }
+
+    fun swap(
+        pos1: Position,
+        pos2: Position,
+    ) {
+        val temp = grid[pos1.y][pos1.x]
+        grid[pos1.y][pos1.x] = grid[pos2.y][pos2.x]
+        grid[pos2.y][pos2.x] = temp
+    }
+
+    fun fourNeighbours(position: Position) = Direction.fourDirections.map { position.move(it) }
+
     fun sumRows(selector: (Int) -> Int) = yIndices.sumOf(selector)
 
     fun countCol(predicate: (Int) -> Boolean) = xIndices.count(predicate)
@@ -67,14 +81,17 @@ class Grid(
 }
 
 class Position(
-    var y: Int,
-    var x: Int,
+    val y: Int,
+    val x: Int,
 ) {
     fun move(direction: Direction): Position = Position(y + direction.y, x + direction.x)
 
     fun copy(): Position = Position(y, x)
 
-    fun mod(grid: Grid) = Position(y.mod(grid.height), x.mod(grid.width))
+    fun mod(
+        height: Int,
+        width: Int,
+    ) = Position(y.mod(height), x.mod(width))
 
     fun opposite(other: Position) = Position(y - (other.y - y), x - (other.x - x))
 

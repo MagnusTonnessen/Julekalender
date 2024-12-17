@@ -3,7 +3,6 @@ package adventofcode.jul2024
 import adventofcode.printPart1
 import adventofcode.printPart2
 import java.io.File
-import java.nio.file.Files.move
 
 fun main() {
     var index = 0L
@@ -36,15 +35,13 @@ private fun List<Triple<Long?, Long, Long>>.checksum(): Long =
         (start..end).sumOf { it * (id ?: 0) }
     }
 
-private fun List<Triple<Long?, Long, Long>>.canMoveFile(): Boolean = indexOfFirst { it.first == null } < indexOfLast { it.first != null }
-
 private fun Triple<Long?, Long, Long>.size(): Long = third - second + 1
 
 private fun MutableList<Triple<Long?, Long, Long>>.moveFileBlocks(): List<Triple<Long?, Long, Long>> {
     do {
         val diskRangeIndex = indexOfLast { it.first != null }
         val emptyRangeIndex = indexOfFirst { it.first == null }
-    } while (move(diskRangeIndex, emptyRangeIndex))
+    } while (movePart1(diskRangeIndex, emptyRangeIndex))
 
     return this
 }
@@ -56,13 +53,13 @@ private fun MutableList<Triple<Long?, Long, Long>>.moveWholeFiles(): MutableList
         val diskRangeIndex = indexOf(diskRange)
         val emptyRangeIndex = indexOfFirst { it.first == null && it.size() >= diskRange.size() }
 
-        move(diskRangeIndex, emptyRangeIndex)
+        movePart1(diskRangeIndex, emptyRangeIndex)
     }
 
     return this
 }
 
-private fun MutableList<Triple<Long?, Long, Long>>.move(
+private fun MutableList<Triple<Long?, Long, Long>>.movePart1(
     diskRangeIndex: Int,
     emptyRangeIndex: Int,
 ): Boolean {
