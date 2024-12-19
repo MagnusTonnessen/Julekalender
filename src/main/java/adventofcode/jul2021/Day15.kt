@@ -22,7 +22,7 @@ fun main() {
     println("Part two: ${distPartTwo.last()}")
 }
 
-fun dijkstra(
+private fun dijkstra(
     input: List<List<Int>>,
     src: Point,
 ): LongArray {

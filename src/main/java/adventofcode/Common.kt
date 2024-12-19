@@ -1,7 +1,12 @@
 package adventofcode
 
+import java.util.PriorityQueue
+
 class Grid(
     private val grid: List<MutableList<Char>>,
+    private val startSymbol: Char = 'S',
+    private val endSymbol: Char = 'E',
+    private val wallSymbol: Char = '#',
 ) {
     val height: Int = grid.size
     val width: Int = grid[0].size
@@ -22,6 +27,14 @@ class Grid(
         grid[pos1.y][pos1.x] = grid[pos2.y][pos2.x]
         grid[pos2.y][pos2.x] = temp
     }
+
+    fun isWall(position: Position): Boolean = get(position) == wallSymbol
+
+    val start: Position
+        get() = getFirstPositionOfChar(startSymbol)
+
+    val end: Position
+        get() = getFirstPositionOfChar(endSymbol)
 
     fun fourNeighbours(position: Position) = Direction.fourDirections.map { position.move(it) }
 
@@ -64,9 +77,40 @@ class Grid(
         return Grid(newGrid)
     }
 
+    fun dijkstra(
+        startPosition: Position,
+        startDirection: Direction,
+    ): Map<Position, MutableMap<Direction, Long>> {
+        val distances =
+            positions.associateWith { Direction.fourDirections.associateWith { Long.MAX_VALUE }.toMutableMap() }
+        val pq = PriorityQueue<Triple<Position, Direction, Long>>(compareBy { it.third })
+
+        distances[startPosition]!![startDirection] = 0
+        pq.add(Triple(startPosition, startDirection, 0))
+
+        while (pq.isNotEmpty()) {
+            val (position, direction, currentDistance) = pq.poll()
+
+            if (currentDistance > distances[position]!![direction]!!) continue
+
+            for (newDirection in setOf(direction.turnLeft90(), direction, direction.turnRight90())) {
+                val newPosition = if (newDirection == direction) position.move(direction) else position
+                if (!isWall(newPosition)) {
+                    val newDistance = currentDistance + if (newDirection == direction) 1L else 1000L
+                    if (newDistance < distances[newPosition]!![newDirection]!!) {
+                        distances[newPosition]!![newDirection] = newDistance
+                        pq.offer(Triple(newPosition, newDirection, newDistance))
+                    }
+                }
+            }
+        }
+
+        return distances
+    }
+
     override fun toString(): String = grid.joinToString("\n") { it.joinToString("") }
 
-    fun print(overrideChars: List<Pair<Position, Char>> = emptyList()) {
+    fun print(overrideChars: Iterable<Pair<Position, String>> = emptyList()) {
         yIndices.forEach { y ->
             xIndices.forEach { x ->
                 print(overrideChars.find { it.first == Position(y, x) }?.second ?: grid[y][x])
@@ -76,7 +120,11 @@ class Grid(
     }
 
     companion object {
-        fun List<String>.toGrid() = Grid(map { it.toMutableList() })
+        fun List<String>.toGrid(
+            startSymbol: Char = 'S',
+            endSymbol: Char = 'E',
+            wallSymbol: Char = '#',
+        ) = Grid(map { it.toMutableList() }, startSymbol, endSymbol, wallSymbol)
     }
 }
 
@@ -129,21 +177,25 @@ enum class Direction(
     SE(1, 1),
     ;
 
-    fun turnRight90(): Direction = eightDirections[(eightDirections.indexOf(this) + 2) % 8]
+    fun turnRight90(): Direction = eightDirections[(eightDirections.indexOf(this) + 2).mod(8)]
+
+    fun turnLeft90(): Direction = eightDirections[(eightDirections.indexOf(this) - 2).mod(8)]
+
+    fun turn180(): Direction = eightDirections[(eightDirections.indexOf(this) + 4).mod(8)]
 
     companion object {
         val eightDirections
             get() = listOf(N, NE, E, SE, S, SW, W, NW)
 
         val fourDirections
-            get() = listOf(E, S, W, N)
+            get() = listOf(N, E, S, W)
 
         fun Char.toDir(): Direction =
             when (this) {
+                '^', 'U' -> N
                 '>', 'R' -> E
                 'v', 'D' -> S
                 '<', 'L' -> W
-                '^', 'U' -> N
                 else -> error("Invalid direction: $this")
             }
 
